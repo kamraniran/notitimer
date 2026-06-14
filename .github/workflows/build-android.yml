@@ -1,9 +1,10 @@
-name: Android Build and Deploy
+name: Build Android App
 
 on:
   push:
-    branches:
-      - main # یا هر شاخه‌ای که می‌خوای build رو روش اجرا کنی
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -13,21 +14,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up JDK 11
+    - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
         cache: gradle
 
     - name: Grant Gradle permissions
       run: chmod +x gradlew
+      working-directory: ${{ github.workspace }} # این خط مهم است!
 
     - name: Build with Gradle
-      run: ./gradlew assembleDebug
+      run: ./gradlew build
+      working-directory: ${{ github.workspace }}
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
-        name: app-debug.apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        name: app-release-apk
+        path: app/build/outputs/apk/release/app-release.apk
