@@ -22,12 +22,12 @@ jobs:
         cache: gradle
 
     - name: Grant Gradle permissions
-      run: chmod +x gradlew
-      working-directory: ${{ github.workspace }} # این خط مهم است!
+      run: chmod +x ${{ github.workspace }}/gradlew # مسیر کامل فایل gradlew مشخص شده است
+      # working-directory: ${{ github.workspace }}  # این خط دیگر لازم نیست چون مسیر کامل را دادیم
 
     - name: Build with Gradle
-      run: ./gradlew build
-      working-directory: ${{ github.workspace }}
+      run: ${{ github.workspace }}/gradlew build # مسیر کامل gradlew در اینجا نیز مشخص شده است
+      # working-directory: ${{ github.workspace }} # این خط نیز برای این دستور لازم نیست
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
