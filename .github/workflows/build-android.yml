@@ -13,6 +13,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        path: ${{ github.workspace }} # این خط اطمینان می‌دهد که کد در مسیر صحیح checkout می‌شود
 
     - name: Set up JDK 17
       uses: actions/setup-java@v3
@@ -22,12 +24,10 @@ jobs:
         cache: gradle
 
     - name: Grant Gradle permissions
-      run: chmod +x ${{ github.workspace }}/gradlew # مسیر کامل فایل gradlew مشخص شده است
-      # working-directory: ${{ github.workspace }}  # این خط دیگر لازم نیست چون مسیر کامل را دادیم
+      run: chmod +x ${{ github.workspace }}/gradlew
 
     - name: Build with Gradle
-      run: ${{ github.workspace }}/gradlew build # مسیر کامل gradlew در اینجا نیز مشخص شده است
-      # working-directory: ${{ github.workspace }} # این خط نیز برای این دستور لازم نیست
+      run: ${{ github.workspace }}/gradlew build
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
